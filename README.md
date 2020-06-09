@@ -1,2 +1,2 @@
 # mom-i-am-safe
-Mom, I am safe
+Mom, I am safe.
