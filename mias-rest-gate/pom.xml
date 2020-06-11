@@ -12,7 +12,7 @@
     <artifactId>mias-rest-gate</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mias-rest-gate</name>
-    <description>Service with REST API to reveive messages</description>
+    <description>Service with REST API to receive messages</description>
 
     <properties>
         <java.version>11</java.version>
