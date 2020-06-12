@@ -11,14 +11,19 @@ import lombok.Getter;
 @Getter
 public class SMSMessage {
     private final String phoneNumber;
-    private final String message;
+    private final String messageText;
 
-    SMSMessage(String phoneNumber, String message) {
-        if(message.length() > 160) {
-            throw new IllegalArgumentException("Too long single SMS message:, " + message.length());
+    public SMSMessage(String phoneNumber, String message) {
+        if(phoneNumber == null || phoneNumber.isBlank()) {
+            throw new IllegalArgumentException("phoneNumber could not be empty");
+        }
+
+        if(message == null || message.isBlank() || message.length() > 160) {
+            throw new IllegalArgumentException("Too long single SMS message:, " +
+                    ((message != null) ? message.length() : ""));
         }
 
         this.phoneNumber = phoneNumber;
-        this.message = message;
+        this.messageText = message;
     }
 }

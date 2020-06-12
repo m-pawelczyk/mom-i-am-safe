@@ -15,7 +15,39 @@ class SMSMessageTest {
         SMSMessage message = new SMSMessage(PHONE_NUMBER, MESSAGE_TEXT);
         // than
         assertEquals(PHONE_NUMBER, message.getPhoneNumber());
-        assertEquals(MESSAGE_TEXT, message.getMessage());
+        assertEquals(MESSAGE_TEXT, message.getMessageText());
+    }
+
+    @Test
+    public void testEmptyPhoneNumberIsNotValid() {
+        // than
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SMSMessage("", MESSAGE_TEXT);
+        });;
+    }
+
+    @Test
+    public void testNullPhoneNumberIsNotValid() {
+        // than
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SMSMessage(null, MESSAGE_TEXT);
+        });;
+    }
+
+    @Test
+    public void testEmptyMessageIsNotValid() {
+        // than
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SMSMessage(PHONE_NUMBER, "");
+        });;
+    }
+
+    @Test
+    public void testNullMessageIsNotValid() {
+        // than
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SMSMessage(PHONE_NUMBER, null);
+        });;
     }
 
     @Test
