@@ -1,5 +1,6 @@
 package pro.pawelczyk.miasrestgate.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pro.pawelczyk.miasrestgate.api.v1.model.MessageDTO;
@@ -12,6 +13,7 @@ import pro.pawelczyk.miasrestgate.services.MessageService;
  * created MessageController in pro.pawelczyk.miasrestgate.controllers
  * in project mias-rest-gate
  */
+@Slf4j
 @RestController
 @RequestMapping(MessageController.BASE_URL)
 public class MessageController {
@@ -26,7 +28,8 @@ public class MessageController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageDTO createNewMessageFromSMS(@RequestBody SMSMessageDTO smsMessageDTO){
+    public MessageDTO createNewMessageFromSMS(@RequestBody SMSMessageDTO smsMessageDTO) {
+        log.info("receive sms message: " + smsMessageDTO.toString());
         return messageService.createAndRedirectSMSMessage(smsMessageDTO);
     }
 }

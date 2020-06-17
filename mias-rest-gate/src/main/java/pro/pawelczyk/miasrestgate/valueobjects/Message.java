@@ -1,5 +1,7 @@
 package pro.pawelczyk.miasrestgate.valueobjects;
 
+import lombok.ToString;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -9,6 +11,7 @@ import java.util.UUID;
  * created Message in pro.pawelczyk.miasrestgate.valueobjects
  * in project mias-rest-gate
  */
+@ToString
 public class Message {
     private final UUID uuid;
     private final Instant timestamp;

@@ -1,5 +1,6 @@
 package pro.pawelczyk.miasrestgate.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import pro.pawelczyk.miasrestgate.MiasRestGateApplication;
@@ -14,6 +15,7 @@ import pro.pawelczyk.miasrestgate.valueobjects.SMSMessage;
  * created MessageService in pro.pawelczyk.miasrestgate.services
  * in project mias-rest-gate
  */
+@Slf4j
 @Service
 public class MessageServiceImpl implements MessageService {
 
@@ -26,8 +28,10 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public MessageDTO createAndRedirectSMSMessage(SMSMessageDTO smsMessageDTO) {
         SMSMessage smsMessage = new SMSMessage(smsMessageDTO.getPhoneNumber(), smsMessageDTO.getMessageText());
+        log.info("receive valid sms message: " + smsMessage.toString());
         Message message = new Message(smsMessage);
         rabbitTemplate.convertAndSend(MiasRestGateApplication.queueName, message.getMessageText());
+        log.info("redirect sms message to queue: " + message.toString());
         return new MessageDTO(
                 message.getUuidString(),
                 message.getTimestampString(),
