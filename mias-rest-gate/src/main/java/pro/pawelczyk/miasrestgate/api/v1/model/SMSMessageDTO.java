@@ -1,10 +1,8 @@
 package pro.pawelczyk.miasrestgate.api.v1.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -18,7 +16,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SMSMessageDTO {
 
+    @ApiParam(value = "user phone number", required = true)
     private String phoneNumber;
+
+    @ApiParam(value = "sms message text", required = true)
     private String messageText;
 
 //    @JsonCreator
