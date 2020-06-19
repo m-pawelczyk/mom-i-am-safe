@@ -13,7 +13,7 @@ import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class MessageServiceImplTest {
+class UserMessageServiceImplTest {
 
     public static final String SENDER_ID = "5000300400";
     public static final String MESSAGE_TEXT = "test message";
@@ -22,11 +22,11 @@ class MessageServiceImplTest {
     RabbitTemplate rabbitTemplate;
 
     @InjectMocks
-    MessageServiceImpl messageService;
+    UserMessageServiceImpl messageService;
 
     @BeforeEach
     void setUp() {
-        messageService = new MessageServiceImpl(rabbitTemplate);
+        messageService = new UserMessageServiceImpl(rabbitTemplate);
     }
 
     @Test

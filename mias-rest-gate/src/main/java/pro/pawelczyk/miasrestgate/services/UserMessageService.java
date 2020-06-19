@@ -9,7 +9,7 @@ import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
  * created MessageService in pro.pawelczyk.miasrestgate.services
  * in project mias-rest-gate
  */
-public interface MessageService {
+public interface UserMessageService {
 
     UserMessageDTO createAndRedirectSMSMessage(SMSMessageDTO smsMessageDTO);
 }

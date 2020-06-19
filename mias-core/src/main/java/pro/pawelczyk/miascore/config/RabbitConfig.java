@@ -7,6 +7,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pro.pawelczyk.miascore.listeners.UserMessageListener;
+import pro.pawelczyk.miascore.services.TwitterUpdaterService;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)
@@ -17,17 +18,23 @@ import pro.pawelczyk.miascore.listeners.UserMessageListener;
 @Configuration
 public class RabbitConfig {
 
-    public static final String queueName = "user-messages";
+    public static final String userMessagesQueueName = "user-messages";
+    public static final String twitterUpdaterQueueName = "twitter-updater";
 
     @Bean
     Queue userMessageQueue() {
-        return new Queue(queueName, false);
+        return new Queue(userMessagesQueueName, false);
     }
 
     @Bean
-    public UserMessageListener userMessageListener() {
-        return new UserMessageListener();
+    Queue twitterUpdaterQueue() {
+        return new Queue(twitterUpdaterQueueName, false);
     }
+
+//    @Bean
+//    public UserMessageListener userMessageListener() {
+//        return new UserMessageListener();
+//    }
 
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {

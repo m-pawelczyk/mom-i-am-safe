@@ -1,10 +1,12 @@
 package pro.pawelczyk.miascore.listeners;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import pro.pawelczyk.miascore.config.RabbitConfig;
+import pro.pawelczyk.miascore.services.TwitterUpdaterService;
 import pro.pawelczyk.miascore.valueobjects.UserMessage;
 
 /**
@@ -14,9 +16,16 @@ import pro.pawelczyk.miascore.valueobjects.UserMessage;
  * in project mias-core
  */
 @Slf4j
+@Component
 public class UserMessageListener {
 
-    @RabbitListener(queues = RabbitConfig.queueName)
+    private final TwitterUpdaterService twitterUpdaterService;
+
+    public UserMessageListener(TwitterUpdaterService twitterUpdaterService) {
+        this.twitterUpdaterService = twitterUpdaterService;
+    }
+
+    @RabbitListener(queues = RabbitConfig.userMessagesQueueName)
     public void receive(UserMessage userMessage) throws InterruptedException {
         StopWatch watch = new StopWatch();
         watch.start();
@@ -26,6 +35,7 @@ public class UserMessageListener {
 //            throw new AmqpRejectAndDontRequeueException("spadaj janusz");
 //        }
         // TODO - do something with message
+        twitterUpdaterService.sendTwitterUpdate(userMessage);
         watch.stop();
         log.info("instance " +
                 " [x] Done in " + watch.getTotalTimeSeconds() + "s");

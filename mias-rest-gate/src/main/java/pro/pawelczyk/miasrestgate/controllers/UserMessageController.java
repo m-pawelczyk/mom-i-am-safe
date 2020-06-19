@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
-import pro.pawelczyk.miasrestgate.services.MessageService;
+import pro.pawelczyk.miasrestgate.services.UserMessageService;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)
@@ -18,15 +18,15 @@ import pro.pawelczyk.miasrestgate.services.MessageService;
 @Api(description = "All types message handler") // "value=" is not working
 @Slf4j
 @RestController
-@RequestMapping(MessageController.BASE_URL)
-public class MessageController {
+@RequestMapping(UserMessageController.BASE_URL)
+public class UserMessageController {
 
     public static final String BASE_URL = "/api/v1/messages";
 
-    private final MessageService messageService;
+    private final UserMessageService userMessageService;
 
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
+    public UserMessageController(UserMessageService userMessageService) {
+        this.userMessageService = userMessageService;
     }
 
     @ApiOperation(value = "Create new SMS message in system.",
@@ -36,6 +36,6 @@ public class MessageController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserMessageDTO createNewMessageFromSMS(@RequestBody SMSMessageDTO smsMessageDTO) {
         log.info("receive sms message: " + smsMessageDTO.toString());
-        return messageService.createAndRedirectSMSMessage(smsMessageDTO);
+        return userMessageService.createAndRedirectSMSMessage(smsMessageDTO);
     }
 }

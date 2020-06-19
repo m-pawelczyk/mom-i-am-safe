@@ -3,7 +3,6 @@ package pro.pawelczyk.miasrestgate.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import pro.pawelczyk.miasrestgate.MiasRestGateApplication;
 import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.config.RabbitConfig;
@@ -18,11 +17,11 @@ import pro.pawelczyk.miasrestgate.valueobjects.SMSMessage;
  */
 @Slf4j
 @Service
-public class MessageServiceImpl implements MessageService {
+public class UserMessageServiceImpl implements UserMessageService {
 
     private RabbitTemplate rabbitTemplate;
 
-    public MessageServiceImpl(RabbitTemplate rabbitTemplate) {
+    public UserMessageServiceImpl(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 

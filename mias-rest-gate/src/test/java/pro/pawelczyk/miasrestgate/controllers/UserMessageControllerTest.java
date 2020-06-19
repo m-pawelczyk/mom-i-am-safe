@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
-import pro.pawelczyk.miasrestgate.services.MessageService;
+import pro.pawelczyk.miasrestgate.services.UserMessageService;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.pawelczyk.miasrestgate.controllers.AbstractRestControllerTest.asJsonString;
 
-class MessageControllerTest {
+class UserMessageControllerTest {
 
     public static final String UUID = "uuid";
     public static final String TIMESTAMP = "12345678";
@@ -27,10 +27,10 @@ class MessageControllerTest {
     public static final String MESSAGE_TEXT = "test message";
 
     @Mock
-    MessageService messageService;
+    UserMessageService userMessageService;
 
     @InjectMocks
-    MessageController controller;
+    UserMessageController controller;
 
     MockMvc mockMvc;
 
@@ -38,7 +38,7 @@ class MessageControllerTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        controller = new MessageController(messageService);
+        controller = new UserMessageController(userMessageService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .build();
     }
@@ -49,10 +49,10 @@ class MessageControllerTest {
         SMSMessageDTO smsMessageDTO = new SMSMessageDTO(SENDER_ID, MESSAGE_TEXT);
         UserMessageDTO userMessageDTO = new UserMessageDTO(UUID, TIMESTAMP, SENDER_ID, MESSAGE_TEXT);
 
-        when(messageService.createAndRedirectSMSMessage(smsMessageDTO)).thenReturn(userMessageDTO);
+        when(userMessageService.createAndRedirectSMSMessage(smsMessageDTO)).thenReturn(userMessageDTO);
 
         // then
-        mockMvc.perform(post(MessageController.BASE_URL)
+        mockMvc.perform(post(UserMessageController.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(smsMessageDTO))
         )

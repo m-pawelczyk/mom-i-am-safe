@@ -1,4 +1,4 @@
-package pro.pawelczyk.miascore.valueobjects;
+package pro.pawelczyk.miastwitterupdater.valueobjects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
@@ -8,13 +8,12 @@ import java.util.UUID;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)
- * on 18.06.2020
- * created Message in pro.pawelczyk.miascore.valueobjects
- * in project mias-core
+ * on 19.06.2020
+ * created UserMessage in pro.pawelczyk.miastwitterupdater.valueobjects
+ * in project mias-twitter-updater
  */
 @ToString
 public class UserMessage {
-
     private final UUID uuid;
     private final Instant timestamp;
     private final String senderId;
@@ -36,23 +35,5 @@ public class UserMessage {
         this.timestamp = timestamp;
         this.senderId = senderId;
         this.messageText = messageText;
-    }
-
-    @JsonProperty(value = "uuid")
-    public String getUuidString() {
-        return uuid.toString();
-    }
-
-    @JsonProperty(value = "timestamp")
-    public String getTimestampString() {
-        return timestamp.toString();
-    }
-
-    public String getSenderId() {
-        return senderId;
-    }
-
-    public String getMessageText() {
-        return messageText;
     }
 }
