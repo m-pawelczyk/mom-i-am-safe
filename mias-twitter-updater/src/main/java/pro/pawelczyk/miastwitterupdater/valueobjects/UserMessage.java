@@ -36,4 +36,12 @@ public class UserMessage {
         this.senderId = senderId;
         this.messageText = messageText;
     }
+
+    public String getMessageText() {
+        return messageText;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
 }

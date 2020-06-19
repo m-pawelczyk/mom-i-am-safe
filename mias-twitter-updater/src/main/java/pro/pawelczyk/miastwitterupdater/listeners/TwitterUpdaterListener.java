@@ -6,6 +6,8 @@ import org.springframework.util.StopWatch;
 import pro.pawelczyk.miastwitterupdater.config.RabbitConfig;
 import pro.pawelczyk.miastwitterupdater.valueobjects.UserMessage;
 
+import java.time.Instant;
+
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)
  * on 19.06.2020
@@ -23,6 +25,8 @@ public class TwitterUpdaterListener {
                 " [x] Received '" + userMessage.toString() + "'");
         Thread.sleep(1000);
         // TODO - do something with message
+        long messageLife = Instant.now().toEpochMilli() - userMessage.getTimestamp().toEpochMilli();
+        log.info("Twitter updated with message: " + userMessage.getMessageText() + " in: " + messageLife + " millis");
         watch.stop();
         log.info("instance " +
                 " [x] Done in " + watch.getTotalTimeSeconds() + "s");
