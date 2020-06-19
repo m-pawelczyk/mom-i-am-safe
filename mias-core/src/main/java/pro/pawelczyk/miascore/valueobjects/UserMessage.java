@@ -51,7 +51,7 @@ public class UserMessage {
 //        return senderId;
 //    }
 //
-//    public String getMessageText() {
-//        return messageText;
-//    }
+    public String getMessageText() {
+        return messageText;
+    }
 }

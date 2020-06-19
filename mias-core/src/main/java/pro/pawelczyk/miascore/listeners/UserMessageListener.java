@@ -1,6 +1,7 @@
 package pro.pawelczyk.miascore.listeners;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.util.StopWatch;
 import pro.pawelczyk.miascore.config.RabbitConfig;
@@ -21,6 +22,9 @@ public class UserMessageListener {
         watch.start();
         log.info("instance " +
                 " [x] Received '" + userMessage + "'");
+//        if(userMessage.getMessageText().contains("%")) {
+//            throw new AmqpRejectAndDontRequeueException("spadaj janusz");
+//        }
         // TODO - do something with message
         watch.stop();
         log.info("instance " +
