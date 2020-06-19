@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pro.pawelczyk.miasrestgate.MiasRestGateApplication;
 import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
+import pro.pawelczyk.miasrestgate.config.RabbitConfig;
 import pro.pawelczyk.miasrestgate.valueobjects.UserMessage;
 import pro.pawelczyk.miasrestgate.valueobjects.SMSMessage;
 
@@ -30,10 +31,10 @@ public class MessageServiceImpl implements MessageService {
         SMSMessage smsMessage = new SMSMessage(smsMessageDTO.getPhoneNumber(), smsMessageDTO.getMessageText());
         log.info("receive valid sms message: " + smsMessage.toString());
         UserMessage userMessage = new UserMessage(smsMessage);
-        rabbitTemplate.convertAndSend(MiasRestGateApplication.queueName, userMessage);
+        rabbitTemplate.convertAndSend(RabbitConfig.queueName, userMessage);
         log.info("redirect sms message to queue: " + userMessage.toString());
         return new UserMessageDTO(
-                userMessage.getUuidString().toString(),
+                userMessage.getUuidString(),
                 userMessage.getTimestampString(),
                 userMessage.getSenderId(),
                 userMessage.getMessageText());

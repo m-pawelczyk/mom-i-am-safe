@@ -30,8 +30,8 @@ public class UserMessage {
 
 
     @JsonProperty(value = "uuid")
-    public UUID getUuidString() {
-        return uuid;
+    public String getUuidString() {
+        return uuid.toString();
     }
 
     @JsonProperty(value = "timestamp")
