@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pro.pawelczyk.miasrestgate.api.v1.model.MessageDTO;
+import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.services.MessageService;
 
@@ -34,7 +34,7 @@ public class MessageController {
                     "This message will be handled as normal SMS from phone")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageDTO createNewMessageFromSMS(@RequestBody SMSMessageDTO smsMessageDTO) {
+    public UserMessageDTO createNewMessageFromSMS(@RequestBody SMSMessageDTO smsMessageDTO) {
         log.info("receive sms message: " + smsMessageDTO.toString());
         return messageService.createAndRedirectSMSMessage(smsMessageDTO);
     }

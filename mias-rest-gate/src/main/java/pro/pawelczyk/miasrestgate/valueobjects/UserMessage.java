@@ -1,5 +1,7 @@
 package pro.pawelczyk.miasrestgate.valueobjects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.time.Instant;
@@ -12,23 +14,27 @@ import java.util.UUID;
  * in project mias-rest-gate
  */
 @ToString
-public class Message {
+public class UserMessage {
+
     private final UUID uuid;
     private final Instant timestamp;
     private final String senderId;
     private final String messageText;
 
-    public Message(SMSMessage smsMessage) {
+    public UserMessage(SMSMessage smsMessage) {
         this.uuid = UUID.randomUUID();
         this.timestamp = Instant.now();
         this.senderId = smsMessage.getPhoneNumber();
         this.messageText = smsMessage.getMessageText();
     }
 
-    public String getUuidString() {
-        return uuid.toString();
+
+    @JsonProperty(value = "uuid")
+    public UUID getUuidString() {
+        return uuid;
     }
 
+    @JsonProperty(value = "timestamp")
     public String getTimestampString() {
         return timestamp.toString();
     }

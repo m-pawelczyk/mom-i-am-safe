@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import pro.pawelczyk.miasrestgate.api.v1.model.MessageDTO;
+import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,9 +34,9 @@ class MessageServiceImplTest {
         // given
         SMSMessageDTO smsMessageDTO = new SMSMessageDTO(SENDER_ID, MESSAGE_TEXT);
         // when
-        MessageDTO messageDTO = messageService.createAndRedirectSMSMessage(smsMessageDTO);
+        UserMessageDTO userMessageDTO = messageService.createAndRedirectSMSMessage(smsMessageDTO);
         // than
-        assertEquals(SENDER_ID, messageDTO.getSenderId());
-        assertEquals(MESSAGE_TEXT, messageDTO.getMessageText());
+        assertEquals(SENDER_ID, userMessageDTO.getSenderId());
+        assertEquals(MESSAGE_TEXT, userMessageDTO.getMessageText());
     }
 }

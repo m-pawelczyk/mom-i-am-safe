@@ -1,6 +1,6 @@
 package pro.pawelczyk.miasrestgate.services;
 
-import pro.pawelczyk.miasrestgate.api.v1.model.MessageDTO;
+import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 
 /**
@@ -11,5 +11,5 @@ import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
  */
 public interface MessageService {
 
-    MessageDTO createAndRedirectSMSMessage(SMSMessageDTO smsMessageDTO);
+    UserMessageDTO createAndRedirectSMSMessage(SMSMessageDTO smsMessageDTO);
 }
