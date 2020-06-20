@@ -19,7 +19,8 @@ It is simple, service "Mum, I am safe" is to publish information about the last 
 
 - Linux
 - Java 11 (Spring 5)
-- Broker (ActiveMQ or RabbitMQ)
+- RabbitMQ
+- MongoDB
 - Docker
-- Maven
+- Maven/Gradle
 - Bash
