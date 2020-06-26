@@ -1,5 +1,7 @@
 package pro.pawelczyk.miascore.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -11,6 +13,8 @@ import java.util.List;
  * created User in pro.pawelczyk.miascore.model
  * in project mias-core
  */
+@NoArgsConstructor
+@Data
 @Document
 public class User {
 
