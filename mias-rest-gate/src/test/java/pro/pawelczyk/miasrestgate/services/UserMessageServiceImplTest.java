@@ -5,12 +5,24 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
+import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.valueobjects.SMSMessage;
+import pro.pawelczyk.miasrestgate.valueobjects.SenderType;
+import pro.pawelczyk.miasrestgate.valueobjects.UserMessage;
+
+import java.time.Instant;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class UserMessageServiceImplTest {
@@ -38,5 +50,6 @@ class UserMessageServiceImplTest {
         // than
         assertEquals(SENDER_ID, acceptedMessageDTO.getSenderId());
         assertEquals(MESSAGE_TEXT, acceptedMessageDTO.getMessageText());
+        verify(rabbitTemplate, times(1)).convertAndSend(anyString(), Mockito.any(UserMessageDTO.class));
     }
 }
