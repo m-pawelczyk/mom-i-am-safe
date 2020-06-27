@@ -3,9 +3,11 @@ package pro.pawelczyk.miasrestgate.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.config.RabbitConfig;
+import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.valueobjects.SenderType;
 import pro.pawelczyk.miasrestgate.valueobjects.UserMessage;
 import pro.pawelczyk.miasrestgate.valueobjects.SMSMessage;
 
@@ -26,13 +28,14 @@ public class UserMessageServiceImpl implements UserMessageService {
     }
 
     @Override
-    public UserMessageDTO createAndRedirectSMSMessage(SMSMessageDTO smsMessageDTO) {
-        SMSMessage smsMessage = new SMSMessage(smsMessageDTO.getPhoneNumber(), smsMessageDTO.getMessageText());
-        log.info("receive valid sms message: " + smsMessage.toString());
-        UserMessage userMessage = new UserMessage(smsMessage);
-        rabbitTemplate.convertAndSend(RabbitConfig.queueName, userMessage);
-        log.info("redirect sms message to queue: " + userMessage.toString());
-        return new UserMessageDTO(
+    public AcceptedMessageDTO createAndRedirectSMSMessage(SMSMessageDTO smsMessageDTO) {
+        UserMessage userMessage = new UserMessage(
+                new SMSMessage(smsMessageDTO.getPhoneNumber(), smsMessageDTO.getMessageText()));
+        log.info("create valid user message: " + userMessage.toString());
+        UserMessageDTO userMessageDTO = userMessage.createDTO();
+        rabbitTemplate.convertAndSend(RabbitConfig.queueName, userMessageDTO);
+        log.info("redirect sms message to queue: " + userMessageDTO.toString());
+        return new AcceptedMessageDTO(
                 userMessage.getUuidString(),
                 userMessage.getTimestampString(),
                 userMessage.getSenderId(),

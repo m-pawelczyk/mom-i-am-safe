@@ -3,6 +3,7 @@ package pro.pawelczyk.miasrestgate.valueobjects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
+import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -19,22 +20,30 @@ public class UserMessage {
     private final UUID uuid;
     private final Instant timestamp;
     private final String senderId;
+    private final SenderType senderType;
     private final String messageText;
 
     public UserMessage(SMSMessage smsMessage) {
         this.uuid = UUID.randomUUID();
         this.timestamp = Instant.now();
         this.senderId = smsMessage.getPhoneNumber();
+        this.senderType = SenderType.SMS;
         this.messageText = smsMessage.getMessageText();
     }
 
+    public UserMessageDTO createDTO() {
+        return new UserMessageDTO(
+                getUuidString(),
+                getTimestampString(),
+                senderId,
+                senderType,
+                messageText);
+    }
 
-    @JsonProperty(value = "uuid")
     public String getUuidString() {
         return uuid.toString();
     }
 
-    @JsonProperty(value = "timestamp")
     public String getTimestampString() {
         return timestamp.toString();
     }

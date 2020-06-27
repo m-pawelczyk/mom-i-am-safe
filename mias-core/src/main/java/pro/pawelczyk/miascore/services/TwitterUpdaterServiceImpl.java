@@ -24,6 +24,6 @@ public class TwitterUpdaterServiceImpl implements TwitterUpdaterService {
 
     @Override
     public void sendTwitterUpdate(UserMessage userMessage) {
-        rabbitTemplate.convertAndSend(RabbitConfig.twitterUpdaterQueueName, userMessage);
+        rabbitTemplate.convertAndSend(RabbitConfig.twitterUpdaterQueueName, userMessage.createDTO());
     }
 }

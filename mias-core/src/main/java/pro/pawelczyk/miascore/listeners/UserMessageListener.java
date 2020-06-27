@@ -5,6 +5,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import pro.pawelczyk.miascore.config.RabbitConfig;
+import pro.pawelczyk.miascore.messages.UserMessageDTO;
 import pro.pawelczyk.miascore.model.User;
 import pro.pawelczyk.miascore.repositories.UserRepository;
 import pro.pawelczyk.miascore.services.TwitterUpdaterService;
@@ -30,12 +31,13 @@ public class UserMessageListener {
     }
 
     @RabbitListener(queues = RabbitConfig.userMessagesQueueName)
-    public void receive(UserMessage userMessage) {
+    public void receive(UserMessageDTO userMessageDTO) {
         StopWatch watch = new StopWatch();
         watch.start();
+        UserMessage userMessage = new UserMessage(userMessageDTO);
         log.info("instance " +
                 " [x] Received '" + userMessage + "'");
-//        if(userMessage.getMessageText().contains("%")) {
+//        if(userMessageDTO.getMessageText().contains("%")) {
 //            throw new AmqpRejectAndDontRequeueException("spadaj janusz");
 //        }
         User user = new User();

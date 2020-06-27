@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.util.StopWatch;
 import pro.pawelczyk.miastwitterupdater.config.RabbitConfig;
+import pro.pawelczyk.miastwitterupdater.messages.UserMessageDTO;
 import pro.pawelczyk.miastwitterupdater.valueobjects.UserMessage;
 
 import java.time.Instant;
@@ -18,9 +19,10 @@ import java.time.Instant;
 public class TwitterUpdaterListener {
 
     @RabbitListener(queues = RabbitConfig.queueName)
-    public void receive(UserMessage userMessage) throws InterruptedException {
+    public void receive(UserMessageDTO userMessageDTO) throws InterruptedException {
         StopWatch watch = new StopWatch();
         watch.start();
+        UserMessage userMessage = new UserMessage(userMessageDTO);
         log.info("instance " +
                 " [x] Received '" + userMessage.toString() + "'");
         Thread.sleep(1000);

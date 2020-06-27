@@ -8,7 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pro.pawelczyk.miasrestgate.api.v1.model.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.services.UserMessageService;
 
@@ -47,9 +47,9 @@ class UserMessageControllerTest {
     void createNewMessageFromSMS() throws Exception {
         // given
         SMSMessageDTO smsMessageDTO = new SMSMessageDTO(SENDER_ID, MESSAGE_TEXT);
-        UserMessageDTO userMessageDTO = new UserMessageDTO(UUID, TIMESTAMP, SENDER_ID, MESSAGE_TEXT);
+        AcceptedMessageDTO acceptedMessageDTO = new AcceptedMessageDTO(UUID, TIMESTAMP, SENDER_ID, MESSAGE_TEXT);
 
-        when(userMessageService.createAndRedirectSMSMessage(smsMessageDTO)).thenReturn(userMessageDTO);
+        when(userMessageService.createAndRedirectSMSMessage(smsMessageDTO)).thenReturn(acceptedMessageDTO);
 
         // then
         mockMvc.perform(post(UserMessageController.BASE_URL)

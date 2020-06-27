@@ -21,12 +21,5 @@ public class SMSMessageDTO {
 
     @ApiParam(value = "sms message text", required = true)
     private String messageText;
-
-//    @JsonCreator
-//    public SMSMessageDTO(@JsonProperty("phoneNumber") String phoneNumber,
-//                         @JsonProperty("message") String message) {
-//        this.phoneNumber = phoneNumber;
-//        this.message = message;
-//    }
 }
 

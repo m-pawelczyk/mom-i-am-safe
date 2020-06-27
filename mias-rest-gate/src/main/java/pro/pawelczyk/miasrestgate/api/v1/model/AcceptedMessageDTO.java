@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserMessageDTO {
+public class AcceptedMessageDTO {
 
     private String uuid;
     private String timestamp;
