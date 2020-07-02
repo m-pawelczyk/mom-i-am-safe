@@ -1,5 +1,7 @@
 package pro.pawelczyk.miascore.services;
 
+import pro.pawelczyk.miascore.messages.TwitterMessageDTO;
+import pro.pawelczyk.miascore.valueobjects.TwitterMessage;
 import pro.pawelczyk.miascore.valueobjects.UserMessage;
 
 /**
@@ -10,5 +12,5 @@ import pro.pawelczyk.miascore.valueobjects.UserMessage;
  */
 public interface TwitterUpdaterService {
 
-    void sendTwitterUpdate(UserMessage userMessage);
+    void sendTwitterUpdate(TwitterMessage twitterMessage);
 }

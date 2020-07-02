@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.util.StopWatch;
 import pro.pawelczyk.miastwitterupdater.config.RabbitConfig;
+import pro.pawelczyk.miastwitterupdater.messages.TwitterMessageDTO;
 import pro.pawelczyk.miastwitterupdater.messages.UserMessageDTO;
+import pro.pawelczyk.miastwitterupdater.valueobjects.TwitterMessage;
 import pro.pawelczyk.miastwitterupdater.valueobjects.UserMessage;
 
 import java.time.Instant;
@@ -19,15 +21,15 @@ import java.time.Instant;
 public class TwitterUpdaterListener {
 
     @RabbitListener(queues = RabbitConfig.queueName)
-    public void receive(UserMessageDTO userMessageDTO) throws InterruptedException {
+    public void receive(TwitterMessageDTO twitterMessageDTO) throws InterruptedException {
         StopWatch watch = new StopWatch();
         watch.start();
-        UserMessage userMessage = new UserMessage(userMessageDTO);
+        TwitterMessage twitterMessage = new TwitterMessage(twitterMessageDTO);
         log.info("instance " +
-                " [x] Received '" + userMessage.toString() + "'");
+                " [x] Received '" + twitterMessage.toString() + "'");
         Thread.sleep(1000);
         // TODO - do something with message
-        long messageLife = Instant.now().toEpochMilli() - userMessage.getTimestamp().toEpochMilli();
+        long messageLife = Instant.now().toEpochMilli() - twitterMessage.getTimestamp().toEpochMilli();
         log.info("Twitter updated with message: " + userMessage.getMessageText() + " in: " + messageLife + " millis");
         watch.stop();
         log.info("instance " +

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import pro.pawelczyk.miascore.config.RabbitConfig;
-import pro.pawelczyk.miascore.valueobjects.UserMessage;
+import pro.pawelczyk.miascore.valueobjects.TwitterMessage;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)
@@ -23,7 +23,7 @@ public class TwitterUpdaterServiceImpl implements TwitterUpdaterService {
     }
 
     @Override
-    public void sendTwitterUpdate(UserMessage userMessage) {
-        rabbitTemplate.convertAndSend(RabbitConfig.twitterUpdaterQueueName, userMessage.createDTO());
+    public void sendTwitterUpdate(TwitterMessage twitterMessage) {
+        rabbitTemplate.convertAndSend(RabbitConfig.twitterUpdaterQueueName, twitterMessage.createDTO());
     }
 }

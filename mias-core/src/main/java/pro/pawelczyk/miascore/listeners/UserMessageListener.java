@@ -3,12 +3,9 @@ package pro.pawelczyk.miascore.listeners;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 import pro.pawelczyk.miascore.config.RabbitConfig;
 import pro.pawelczyk.miascore.messages.UserMessageDTO;
-import pro.pawelczyk.miascore.model.User;
-import pro.pawelczyk.miascore.repositories.UserRepository;
-import pro.pawelczyk.miascore.services.TwitterUpdaterService;
+import pro.pawelczyk.miascore.services.UserMessageProcessorService;
 import pro.pawelczyk.miascore.valueobjects.UserMessage;
 
 /**
@@ -21,37 +18,15 @@ import pro.pawelczyk.miascore.valueobjects.UserMessage;
 @Component
 public class UserMessageListener {
 
-    private final TwitterUpdaterService twitterUpdaterService;
+    private final UserMessageProcessorService userMessageProcessorService;
 
-    private final UserRepository userRepository;
-
-    public UserMessageListener(TwitterUpdaterService twitterUpdaterService, UserRepository userRepository) {
-        this.twitterUpdaterService = twitterUpdaterService;
-        this.userRepository = userRepository;
+    public UserMessageListener(UserMessageProcessorService userMessageProcessorService) {
+        this.userMessageProcessorService = userMessageProcessorService;
     }
 
     @RabbitListener(queues = RabbitConfig.userMessagesQueueName)
     public void receive(UserMessageDTO userMessageDTO) {
-        StopWatch watch = new StopWatch();
-        watch.start();
         UserMessage userMessage = new UserMessage(userMessageDTO);
-        log.info("instance " +
-                " [x] Received '" + userMessage + "'");
-//        if(userMessageDTO.getMessageText().contains("%")) {
-//            throw new AmqpRejectAndDontRequeueException("spadaj janusz");
-//        }
-        User user = new User();
-        user.setPhoneNumber(userMessage.getSenderId());
-        userRepository
-                .save(user)
-                .subscribe(result -> {
-                    log.info("Entity has been saved: {}", result.getId());
-                    twitterUpdaterService.sendTwitterUpdate(userMessage);
-                    watch.stop();
-                    log.info("instance " + " [x] Done in " + watch.getTotalTimeSeconds() + "s");
-
-                    log.info("repository size after: " + userRepository.count().block());
-                });
-        log.info("repository size before: " + userRepository.count().block());
+        userMessageProcessorService.processMessage(userMessage);
     }
 }

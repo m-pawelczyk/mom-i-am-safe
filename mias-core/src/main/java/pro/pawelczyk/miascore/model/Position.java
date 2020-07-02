@@ -1,5 +1,7 @@
 package pro.pawelczyk.miascore.model;
 
+import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -11,11 +13,12 @@ import java.time.Instant;
  * created Position in pro.pawelczyk.miascore.model
  * in project mias-core
  */
+@Data
 @Document
 public class Position {
 
     @MongoId
-    private String id;
+    private ObjectId id;
     private double longitude;
     private double latitude;
     private double altitude;

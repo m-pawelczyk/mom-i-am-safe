@@ -19,7 +19,7 @@ public class UserMessage {
     private final Instant timestamp;
     private final String senderId;
     private final SenderType senderType;
-    private final String messageText;
+    private final MessageText messageText;
 
 
     public UserMessage(UserMessageDTO userMessageDTO) {
@@ -27,10 +27,10 @@ public class UserMessage {
                 Instant.parse(userMessageDTO.getTimestamp()),
                 userMessageDTO.getSenderId(),
                 userMessageDTO.getSenderType(),
-                userMessageDTO.getMessageText());
+                new MessageText(userMessageDTO.getMessageText()));
     }
 
-    public UserMessage(UUID uuid, Instant timestamp, String senderId, SenderType senderType, String messageText) {
+    public UserMessage(UUID uuid, Instant timestamp, String senderId, SenderType senderType, MessageText messageText) {
         this.uuid = uuid;
         this.timestamp = timestamp;
         this.senderId = senderId;
@@ -44,7 +44,25 @@ public class UserMessage {
                 getTimestampString(),
                 senderId,
                 senderType,
-                messageText);
+                getMessageText());
+    }
+
+    public ProcessedMessage process() {
+        if(messageText.containsCoordinatesData()) {
+            return new ProcessedMessageWithCord(uuid, timestamp, senderId, senderType, messageText, messageText.extractCoordinatesIfExists().get());
+        } else {
+            return new ProcessedMessage(uuid, timestamp, senderId, senderType, messageText);
+        }
+    }
+
+    // TODO - should be remove - not need to be open
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    // TODO - should be remove - not need to be open
+    public Instant getTimestamp() {
+        return timestamp;
     }
 
     public String getUuidString() {
@@ -59,7 +77,11 @@ public class UserMessage {
         return senderId;
     }
 
+    public SenderType getSenderType() {
+        return senderType;
+    }
+
     public String getMessageText() {
-        return messageText;
+        return messageText.getMessageTextString();
     }
 }

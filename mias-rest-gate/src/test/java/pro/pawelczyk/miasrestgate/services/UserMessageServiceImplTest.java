@@ -11,15 +11,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
-import pro.pawelczyk.miasrestgate.valueobjects.SMSMessage;
-import pro.pawelczyk.miasrestgate.valueobjects.SenderType;
-import pro.pawelczyk.miasrestgate.valueobjects.UserMessage;
 
-import java.time.Instant;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

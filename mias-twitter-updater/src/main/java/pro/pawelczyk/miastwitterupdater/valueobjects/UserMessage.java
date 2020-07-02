@@ -22,20 +22,20 @@ public class UserMessage {
     private final String messageText;
 
 
-    public UserMessage(UserMessageDTO userMessageDTO) {
-        this(UUID.fromString(userMessageDTO.getUuid()),
-                Instant.parse(userMessageDTO.getTimestamp()),
-                userMessageDTO.getSenderId(),
-                userMessageDTO.getSenderType(),
-                userMessageDTO.getMessageText());
-    }
-
     public UserMessage(UUID uuid, Instant timestamp, String senderId, SenderType senderType, String messageText) {
         this.uuid = uuid;
         this.timestamp = timestamp;
         this.senderId = senderId;
         this.senderType = senderType;
         this.messageText = messageText;
+    }
+
+    public UserMessage(UserMessageDTO userMessageDTO) {
+        this(UUID.fromString(userMessageDTO.getUuid()),
+                Instant.parse(userMessageDTO.getTimestamp()),
+                userMessageDTO.getSenderId(),
+                userMessageDTO.getSenderType(),
+                userMessageDTO.getMessageText());
     }
 
     public UserMessageDTO createDTO() {
