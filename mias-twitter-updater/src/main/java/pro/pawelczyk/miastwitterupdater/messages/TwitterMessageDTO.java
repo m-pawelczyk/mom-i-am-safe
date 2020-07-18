@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TwitterMessageDTO {
+    private String uuid;
+    private String timestamp;
     private String account;
     private String message;
 }

@@ -18,6 +18,7 @@ public class MessageText {
     private OptionalInt startIndexGPSData;
     private Optional<Boolean> containsGPSData;
     private Optional<String> anonymousMessage;
+    private Optional<String> messageTextWithoutGPSData;
 
 
     public MessageText(String messageText) {
@@ -25,9 +26,23 @@ public class MessageText {
         this.startIndexGPSData = OptionalInt.empty();
         this.containsGPSData = Optional.empty();
         this.anonymousMessage = Optional.empty();
+        this.messageTextWithoutGPSData = Optional.empty();
     }
 
     public String getMessageTextString() {
+        return messageText;
+    }
+
+    public String getMessageTextStringWithoutGPSData() {
+        if(messageTextWithoutGPSData.isPresent()) {
+            return messageTextWithoutGPSData.get();
+        }
+
+        if(containsCoordinatesData()) {
+            messageTextWithoutGPSData = Optional.of(messageText.substring(0, startIndexGPSData.getAsInt()).trim());
+            return messageTextWithoutGPSData.get();
+        }
+
         return messageText;
     }
 
@@ -39,7 +54,7 @@ public class MessageText {
         return checkMessageContainGPSDataOrSet();
     }
 
-    // TODO - for sur for refatoring!
+    // TODO - for sure for refatoring!
     public Optional<Coordinates> extractCoordinatesIfExists() {
         if(!containsCoordinatesData()) {
             return Optional.empty();
@@ -85,7 +100,7 @@ public class MessageText {
     private String madeMessageAnonymous() {
         String msgWithoutGPSData;
         if(this.containsCoordinatesData()) {
-            msgWithoutGPSData = messageText.substring(0, startIndexGPSData.getAsInt()).trim();
+            msgWithoutGPSData = getMessageTextStringWithoutGPSData();
         } else {
             msgWithoutGPSData = messageText.trim();
         }

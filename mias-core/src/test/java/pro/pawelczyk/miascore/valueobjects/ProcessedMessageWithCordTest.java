@@ -15,6 +15,7 @@ class ProcessedMessageWithCordTest {
     public static final double LONGITUDE = 50.27;
     public static final double LATITUDE = 19.03;
     public static final String MESSAGE_TEXT = "Ala ma kota";
+    public static final String MESSAGE_TEXT_WITH_GPS = "Ala ma kota gps$50.2135882,18.8671101";
     public static final String KWESTIA_SZLAKU = "kwetiaszlaku";
     ProcessedMessageWithCord processedMessageWithCord;
 
@@ -25,7 +26,7 @@ class ProcessedMessageWithCordTest {
                 Instant.now(),
                 "500400600",
                 SenderType.SMS,
-                new MessageText("Ala ma kota"),
+                new MessageText(MESSAGE_TEXT_WITH_GPS),
                 new Coordinates(LONGITUDE, LATITUDE));
     }
 
@@ -53,7 +54,7 @@ class ProcessedMessageWithCordTest {
                 Instant.now(),
                 "500400600",
                 SenderType.SMS,
-                new MessageText(MESSAGE_TEXT),
+                new MessageText(MESSAGE_TEXT_WITH_GPS),
                 new Coordinates(LONGITUDE, LATITUDE, 300));
         // when
         Position position = processedMsg.createPosition();

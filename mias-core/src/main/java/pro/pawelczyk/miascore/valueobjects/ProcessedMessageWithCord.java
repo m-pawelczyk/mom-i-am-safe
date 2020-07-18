@@ -43,7 +43,7 @@ public class ProcessedMessageWithCord extends ProcessedMessage {
     @Override
     public TwitterMessage twittMessage(String twitterAccount) {
         String msgWithLocalization = this.constructTwitterLink();
-        String message = getMessageText().getMessageTextString() + " " + msgWithLocalization;
+        String message = getMessageText().getMessageTextStringWithoutGPSData() + " " + msgWithLocalization;
 
         return new TwitterMessage(getUuid(), getTimestamp(), twitterAccount, message);
     }

@@ -30,6 +30,6 @@ public class TwitterMessage {
     }
 
     public TwitterMessageDTO createDTO() {
-        return new TwitterMessageDTO(account, message);
+        return new TwitterMessageDTO(uuid.toString(), timestamp.toString(), account, message);
     }
 }

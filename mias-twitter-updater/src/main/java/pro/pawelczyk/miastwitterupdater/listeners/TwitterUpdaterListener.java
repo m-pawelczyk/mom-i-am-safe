@@ -5,9 +5,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.util.StopWatch;
 import pro.pawelczyk.miastwitterupdater.config.RabbitConfig;
 import pro.pawelczyk.miastwitterupdater.messages.TwitterMessageDTO;
-import pro.pawelczyk.miastwitterupdater.messages.UserMessageDTO;
 import pro.pawelczyk.miastwitterupdater.valueobjects.TwitterMessage;
-import pro.pawelczyk.miastwitterupdater.valueobjects.UserMessage;
 
 import java.time.Instant;
 
@@ -22,17 +20,13 @@ public class TwitterUpdaterListener {
 
     @RabbitListener(queues = RabbitConfig.queueName)
     public void receive(TwitterMessageDTO twitterMessageDTO) throws InterruptedException {
-        StopWatch watch = new StopWatch();
-        watch.start();
+//        StopWatch watch = new StopWatch();
+//        watch.start();
         TwitterMessage twitterMessage = new TwitterMessage(twitterMessageDTO);
-        log.info("instance " +
-                " [x] Received '" + twitterMessage.toString() + "'");
-        Thread.sleep(1000);
-        // TODO - do something with message
         long messageLife = Instant.now().toEpochMilli() - twitterMessage.getTimestamp().toEpochMilli();
-        log.info("Twitter updated with message: " + userMessage.getMessageText() + " in: " + messageLife + " millis");
-        watch.stop();
-        log.info("instance " +
-                " [x] Done in " + watch.getTotalTimeSeconds() + "s");
+        log.info("twitter updated with message: " + twitterMessage.getMessage() + " in: " + messageLife + " millis");
+//        watch.stop();
+//        log.info("instance " +
+//                " [x] Done in " + watch.getTotalTimeSeconds() + "s");
     }
 }
