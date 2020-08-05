@@ -2,6 +2,9 @@ package pro.pawelczyk.miascore.model;
 
 import lombok.Data;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -19,8 +22,8 @@ public class Position {
 
     @MongoId
     private ObjectId id;
-    private Double longitude;
-    private Double latitude;
+    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+    private GeoJsonPoint location;
     private Double altitude;
     // TODO - check how it will be stored in MongoDB
     private Instant timestamp;

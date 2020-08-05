@@ -1,6 +1,7 @@
 package pro.pawelczyk.miascore.valueobjects;
 
 import lombok.Getter;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import pro.pawelczyk.miascore.model.Position;
 
 import java.time.Instant;
@@ -31,8 +32,7 @@ public class ProcessedMessageWithCord extends ProcessedMessage {
 
     public Position createPosition() {
         Position position = new Position();
-        position.setLongitude(coordinates.getLongitude());
-        position.setLatitude(coordinates.getLatitude());
+        position.setLocation(new GeoJsonPoint(coordinates.getLongitude(), coordinates.getLatitude()));
         if(coordinates.is3D()) {
             position.setAltitude(coordinates.getAltitude().getAsDouble());
         }
