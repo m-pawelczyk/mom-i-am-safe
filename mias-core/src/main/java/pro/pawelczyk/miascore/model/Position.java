@@ -19,9 +19,9 @@ public class Position {
 
     @MongoId
     private ObjectId id;
-    private double longitude;
-    private double latitude;
-    private double altitude;
+    private Double longitude;
+    private Double latitude;
+    private Double altitude;
     // TODO - check how it will be stored in MongoDB
     private Instant timestamp;
 

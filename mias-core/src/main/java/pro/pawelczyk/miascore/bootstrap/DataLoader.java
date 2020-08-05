@@ -22,7 +22,8 @@ import java.util.List;
 @Component
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final String PHONE_NUMBER_PREFIX = "40050060";
+    public static final String TWITTER_ACCOUNT = "m_pawelczyk_";
+    public static final String PHONE_NUMBER_PREFIX = "40050060";
     private final UserRepository userRepository;
 
     public DataLoader(UserRepository userRepository) {
@@ -32,7 +33,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("load users to db: " + loadUsers());
+        if(userRepository.count().block() == 0) {
+            log.info("load users to db: " + loadUsers());
+        }
     }
 
     private long loadUsers() {
@@ -40,7 +43,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         for (int i = 0; i < 9; i++) {
             user = new User();
             user.setPhoneNumber(PHONE_NUMBER_PREFIX + i);
-            userRepository.save(user);
+            user.setTwitterAccount(TWITTER_ACCOUNT + i);
+            userRepository.save(user).block();
         }
 
         return userRepository.count().block();
