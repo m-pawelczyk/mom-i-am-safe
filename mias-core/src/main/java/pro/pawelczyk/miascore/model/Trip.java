@@ -1,5 +1,7 @@
 package pro.pawelczyk.miascore.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,9 +21,11 @@ import java.util.List;
 public class Trip {
 
     @MongoId
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
+
     private String name;
-    private String ownerId;
+    private ObjectId ownerId;
     // TODO - check how it will be stored in MongoDB
     private Instant startDate;
     private Instant stopDate;

@@ -1,5 +1,7 @@
 package pro.pawelczyk.miascore.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -21,7 +23,9 @@ import java.time.Instant;
 public class Position {
 
     @MongoId
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
+
     @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private GeoJsonPoint location;
     private Double altitude;

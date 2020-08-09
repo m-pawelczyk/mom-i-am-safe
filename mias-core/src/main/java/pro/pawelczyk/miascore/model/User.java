@@ -1,5 +1,7 @@
 package pro.pawelczyk.miascore.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
@@ -22,6 +24,7 @@ import java.util.List;
 public class User {
 
     @MongoId
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
 
     @Indexed(unique = true)
@@ -30,7 +33,7 @@ public class User {
     private String twitterAccount;
     private Position lastPosition;
     private Instant lastMessageTimestamp;
-    private String tripId;
+    private ObjectId tripId;
     private List<String> tripCollection;
 
 }

@@ -1,13 +1,17 @@
 package pro.pawelczyk.miascore.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import pro.pawelczyk.miascore.model.Position;
 import pro.pawelczyk.miascore.model.User;
 import pro.pawelczyk.miascore.repositories.PositionRepository;
 import pro.pawelczyk.miascore.repositories.TripRepository;
 import pro.pawelczyk.miascore.repositories.UserRepository;
-import pro.pawelczyk.miascore.valueobjects.*;
+import pro.pawelczyk.miascore.valueobjects.ProcessedMessage;
+import pro.pawelczyk.miascore.valueobjects.ProcessedMessageWithCord;
+import pro.pawelczyk.miascore.valueobjects.SenderType;
+import pro.pawelczyk.miascore.valueobjects.UserMessage;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
@@ -76,16 +80,16 @@ public class UserMessageProcessorServiceImpl implements UserMessageProcessorServ
 
     }
 
-    private void updatePositionsAndTrips(Position position, String tripId) {
+    private void updatePositionsAndTrips(Position position, ObjectId tripId) {
         positionRepository.save(position).subscribe(result -> {
             log.info("stored position in db: " + result.toString());
             updateTrips(position, tripId);
         });
     }
 
-    private void updateTrips(Position position, String tripId) {
+    private void updateTrips(Position position, ObjectId tripId) {
         if (tripId != null) {
-            tripRepository.findById(tripId).subscribe(result -> {
+            tripRepository.findById(tripId.toString()).subscribe(result -> {
                 result.getPositions().add(position.getId());
                 tripRepository.save(result).subscribe(update -> {
                     log.info("stored update trip in db: " + update.toString());
