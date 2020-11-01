@@ -71,8 +71,8 @@ public class UserMessageProcessorServiceImpl implements UserMessageProcessorServ
             ProcessedMessageWithCord processedMessageWithCord = (ProcessedMessageWithCord) processedMessage;
             Position position = processedMessageWithCord.createPosition();
 
-            updatePositionsAndTrips(position, user.getTripId());
-            updateUsersWithPosition(user, processedMessageWithCord.getTimestamp(), position);
+            updatePositionsAndUserAndTrips(position, user, processedMessageWithCord.getTimestamp());
+//            updateUsersWithPosition(user, processedMessageWithCord.getTimestamp(), position);
         } else {
             updateUsers(user, processedMessage.getTimestamp());
         }
@@ -80,10 +80,11 @@ public class UserMessageProcessorServiceImpl implements UserMessageProcessorServ
 
     }
 
-    private void updatePositionsAndTrips(Position position, ObjectId tripId) {
+    private void updatePositionsAndUserAndTrips(Position position, User user, Instant timestamp) {
         positionRepository.save(position).subscribe(result -> {
             log.info("stored position in db: " + result.toString());
-            updateTrips(position, tripId);
+            updateUsersWithPosition(user, timestamp, position);
+            updateTrips(position, user.getTripId());
         });
     }
 
