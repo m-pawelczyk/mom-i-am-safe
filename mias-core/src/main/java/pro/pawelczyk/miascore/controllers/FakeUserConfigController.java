@@ -69,12 +69,12 @@ public class FakeUserConfigController {
     Mono<User> addNewTripToUserAndSetItAsCurrent(@PathVariable String id, @RequestParam String tripName) {
         log.info("jestem tutaj" + id + " " + tripName);
         Mono<User> user = userRepository.findById(id).map(e -> {
-            log.info("userRepository.findById" + e.getId());
+            log.info("userRepository.findById " + e.getId());
             Trip trip = new Trip();
             trip.setName(tripName);
             trip.setOwnerId(e.getId());
             tripRepository.save(trip).subscribe(e2 -> {
-                log.info("tripRepository.save(trip)" + e2.getId());
+                log.info("tripRepository.save(trip) " + e2.getId());
                 e.setTripId(e2.getId());
                 userRepository.save(e).subscribe(e4 -> {
                     log.info("userRepository.save" + e4);
