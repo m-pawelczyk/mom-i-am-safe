@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MessageTextTest {
@@ -27,92 +28,93 @@ class MessageTextTest {
 
 
     @Test
-    void containsCoordinatesData() {
+    void shouldReturnTrueWhenContainsCoordinatesData() {
         // given
         MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_LONG);
         // when
         boolean containsCoordinatesData = messageText.containsCoordinatesData();
         //then
-        assertTrue(containsCoordinatesData);
+        assertThat(containsCoordinatesData).isTrue();
     }
 
     @Test
-    void notContainsCoordinatesData() {
+    void shouldReturnFalseWhenContainsCoordinatesData() {
         // given
         MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_NO_GPS);
         // when
         boolean containsCoordinatesData = messageText.containsCoordinatesData();
         //then
-        assertFalse(containsCoordinatesData);
+        assertThat(containsCoordinatesData).isFalse();
     }
 
     @Test
-    void extractCoordinatesIfExists2D() {
+    void shouldReturnOnlyLongitudeAndLatitudeAs2DData() {
         // given
         MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_LONG);
         // when
         Optional<Coordinates> optionalCoordinates = messageText.extractCoordinatesIfExists();
         //then
         Coordinates coordinates = optionalCoordinates.get();
-        assertFalse(coordinates.is3D());
-        assertEquals(LONGITUDE_PLUS, coordinates.getLongitude());
-        assertEquals(LATITUDE_PLUS, coordinates.getLatitude());
+
+        assertThat(coordinates.is3D()).isFalse();
+        assertThat(coordinates.getLongitude()).isEqualTo(LONGITUDE_PLUS);
+        assertThat(coordinates.getLatitude()).isEqualTo(LATITUDE_PLUS);
     }
 
     @Test
-    void extractCoordinatesIfExists3D() {
+    void shouldReturnOnlyLongitudeAndLatitudeAndAltitudeAs3DData() {
         // given
         MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_LONG_3D);
         // when
         Optional<Coordinates> optionalCoordinates = messageText.extractCoordinatesIfExists();
         //then
         Coordinates coordinates = optionalCoordinates.get();
-        assertTrue(coordinates.is3D());
-        assertEquals(LONGITUDE_PLUS, coordinates.getLongitude());
-        assertEquals(LATITUDE_PLUS, coordinates.getLatitude());
-        assertEquals(ALTITUDE_PLUS, coordinates.getAltitude().getAsDouble());
+        assertThat(coordinates.is3D()).isTrue();
+        assertThat(coordinates.getLongitude()).isEqualTo(LONGITUDE_PLUS);
+        assertThat(coordinates.getLatitude()).isEqualTo(LATITUDE_PLUS);
+        assertThat(coordinates.getAltitude().getAsDouble()).isEqualTo(ALTITUDE_PLUS);
     }
 
     @Test
-    void extractCoordinatesIfExists2DWithMinusValues() {
+    void shouldReturnOnlyLongitudeAndLatitudeAs2DDataWithMinusValues() {
         // given
         MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_PUERTO_NATALES);
         // when
         Optional<Coordinates> optionalCoordinates = messageText.extractCoordinatesIfExists();
         //then
         Coordinates coordinates = optionalCoordinates.get();
-        assertFalse(coordinates.is3D());
-        assertEquals(LONGITUDE_MINUS, coordinates.getLongitude());
-        assertEquals(LATITUDE_MINUS, coordinates.getLatitude());
+        assertThat(coordinates.is3D()).isFalse();
+        assertThat(coordinates.getLongitude()).isEqualTo(LONGITUDE_MINUS);
+        assertThat(coordinates.getLatitude()).isEqualTo(LATITUDE_MINUS);
     }
 
     @Test
-    void extractCoordinatesIfExists3DWithMinusValues() {
+    void shouldReturnOnlyLongitudeAndLatitudeAndAltitudeAs3DDataWithMinusValues() {
         // given
         MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_PUERTO_NATALES_3D);
         // when
         Optional<Coordinates> optionalCoordinates = messageText.extractCoordinatesIfExists();
         //then
         Coordinates coordinates = optionalCoordinates.get();
-        assertTrue(coordinates.is3D());
-        assertEquals(LONGITUDE_MINUS, coordinates.getLongitude());
-        assertEquals(LATITUDE_MINUS, coordinates.getLatitude());
-        assertEquals(FAKE_ALTITUDE_MINUS, coordinates.getAltitude().getAsDouble());
+        assertThat(coordinates.is3D()).isTrue();
+        assertThat(coordinates.getLongitude()).isEqualTo(LONGITUDE_MINUS);
+        assertThat(coordinates.getLatitude()).isEqualTo(LATITUDE_MINUS);
+        assertThat(coordinates.getAltitude().getAsDouble()).isEqualTo(FAKE_ALTITUDE_MINUS);
     }
 
     @Test
-    void getAnonymousMessage() {
+    void shouldAnonymousMessage() {
         // given
         MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_LONG);
         // then
-        assertEquals("He..e!", messageText.getAnonymousMessage());
+        assertThat(messageText.getAnonymousMessage()).isEqualTo("He..e!");
     }
 
     @Test
-    void getAnonymousMessageNoSpaceBeforeGPSData() {
+    void shouldAnonymousMessageWithoutSpaceBeforeGPSData() {
         // given
         MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_LONG_NO_SPACE);
         // then
-        assertEquals("He..e!", messageText.getAnonymousMessage());
+        assertThat(messageText.getAnonymousMessage()).isEqualTo("He..e!");
     }
 }
