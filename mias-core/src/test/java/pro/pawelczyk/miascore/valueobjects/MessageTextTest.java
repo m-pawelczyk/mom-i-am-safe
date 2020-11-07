@@ -1,32 +1,24 @@
 package pro.pawelczyk.miascore.valueobjects;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
+import java.time.LocalDate;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class MessageTextTest {
 
     public static final String HELLO_MOM_MESSAGE_NO_GPS = "Hello Mom! I would like to say that I am safe";
     public static final String HELLO_MOM_MESSAGE_LONG = "Hello Mom! I would like to say that I am here and I am safe! gps$50.2135882,18.8671101";
-    public static final String HELLO_MOM_MESSAGE_LONG_3D = "Hello Mom! I would like to say that " +
-            "I am here and I am safe! gps$50.2135882,18.8671101,357.4";
-
     public static final String HELLO_MOM_MESSAGE_LONG_NO_SPACE = "Hello Mom! I would like to say that I am here and I am safe!gps$50.2135882,18.8671101";
-    public static final double LONGITUDE_PLUS = 50.2135882;
-    public static final double LATITUDE_PLUS = 18.8671101;
-    public static final double ALTITUDE_PLUS = 357.4;
-
-
-    public static final String HELLO_MOM_MESSAGE_PUERTO_NATALES = "Hello Mom! I would like to say that I am in Puerto Natales! gps$-51.7293565,-72.510806";
-    public static final String HELLO_MOM_MESSAGE_PUERTO_NATALES_3D = "Hello Mom! I would like to say that I am in Puerto Natales! gps$-51.7293565,-72.510806,-10.7";
-    public static final double LONGITUDE_MINUS = -51.7293565;
-    public static final double LATITUDE_MINUS = -72.510806;
-    public static final double FAKE_ALTITUDE_MINUS= -10.7;
-
-
+    
     @Test
     void shouldReturnTrueWhenContainsCoordinatesData() {
         // given
@@ -47,59 +39,34 @@ class MessageTextTest {
         assertThat(containsCoordinatesData).isFalse();
     }
 
-    @Test
-    void shouldReturnOnlyLongitudeAndLatitudeAs2DData() {
+    @ParameterizedTest(name = "should return longitude: {1}, latitude: {2} for message text: {0}")
+    @CsvFileSource(resources = "/messages2D_testdata.csv", numLinesToSkip = 1, delimiterString = ";")
+    void shouldVerify2DGPSDataAgainstMessagesPreparedInFile(String message, double longitude, double latitude) {
         // given
-        MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_LONG);
-        // when
-        Optional<Coordinates> optionalCoordinates = messageText.extractCoordinatesIfExists();
-        //then
-        Coordinates coordinates = optionalCoordinates.get();
-
-        assertThat(coordinates.is3D()).isFalse();
-        assertThat(coordinates.getLongitude()).isEqualTo(LONGITUDE_PLUS);
-        assertThat(coordinates.getLatitude()).isEqualTo(LATITUDE_PLUS);
-    }
-
-    @Test
-    void shouldReturnOnlyLongitudeAndLatitudeAndAltitudeAs3DData() {
-        // given
-        MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_LONG_3D);
-        // when
-        Optional<Coordinates> optionalCoordinates = messageText.extractCoordinatesIfExists();
-        //then
-        Coordinates coordinates = optionalCoordinates.get();
-        assertThat(coordinates.is3D()).isTrue();
-        assertThat(coordinates.getLongitude()).isEqualTo(LONGITUDE_PLUS);
-        assertThat(coordinates.getLatitude()).isEqualTo(LATITUDE_PLUS);
-        assertThat(coordinates.getAltitude().getAsDouble()).isEqualTo(ALTITUDE_PLUS);
-    }
-
-    @Test
-    void shouldReturnOnlyLongitudeAndLatitudeAs2DDataWithMinusValues() {
-        // given
-        MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_PUERTO_NATALES);
+        MessageText messageText = new MessageText(message);
         // when
         Optional<Coordinates> optionalCoordinates = messageText.extractCoordinatesIfExists();
         //then
         Coordinates coordinates = optionalCoordinates.get();
         assertThat(coordinates.is3D()).isFalse();
-        assertThat(coordinates.getLongitude()).isEqualTo(LONGITUDE_MINUS);
-        assertThat(coordinates.getLatitude()).isEqualTo(LATITUDE_MINUS);
+        assertThat(coordinates.getLongitude()).isEqualTo(longitude);
+        assertThat(coordinates.getLatitude()).isEqualTo(latitude);
     }
 
-    @Test
-    void shouldReturnOnlyLongitudeAndLatitudeAndAltitudeAs3DDataWithMinusValues() {
+
+    @ParameterizedTest(name = "should return longitude: {1}, latitude: {2}, and altitude {3} for message text: {0}")
+    @CsvFileSource(resources = "/messages3D_testdata.csv", numLinesToSkip = 1, delimiterString = ";")
+    void shouldVerify3DGPSDataAgainstMessagesPreparedInFile(String message, Double longitude, Double latitude, Double altitude) {
         // given
-        MessageText messageText = new MessageText(HELLO_MOM_MESSAGE_PUERTO_NATALES_3D);
+        MessageText messageText = new MessageText(message);
         // when
         Optional<Coordinates> optionalCoordinates = messageText.extractCoordinatesIfExists();
         //then
         Coordinates coordinates = optionalCoordinates.get();
         assertThat(coordinates.is3D()).isTrue();
-        assertThat(coordinates.getLongitude()).isEqualTo(LONGITUDE_MINUS);
-        assertThat(coordinates.getLatitude()).isEqualTo(LATITUDE_MINUS);
-        assertThat(coordinates.getAltitude().getAsDouble()).isEqualTo(FAKE_ALTITUDE_MINUS);
+        assertThat(coordinates.getLongitude()).isEqualTo(longitude);
+        assertThat(coordinates.getLatitude()).isEqualTo(latitude);
+        assertThat(coordinates.getAltitude().getAsDouble()).isEqualTo(altitude);
     }
 
     @Test
