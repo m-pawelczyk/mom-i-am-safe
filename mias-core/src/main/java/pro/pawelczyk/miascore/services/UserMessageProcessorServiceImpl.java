@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import pro.pawelczyk.miascore.model.Position;
+import pro.pawelczyk.miascore.model.Trip;
 import pro.pawelczyk.miascore.model.User;
 import pro.pawelczyk.miascore.repositories.PositionRepository;
 import pro.pawelczyk.miascore.repositories.TripRepository;
@@ -15,6 +16,7 @@ import pro.pawelczyk.miascore.valueobjects.UserMessage;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+import java.util.Arrays;
 
 
 /**
@@ -88,17 +90,6 @@ public class UserMessageProcessorServiceImpl implements UserMessageProcessorServ
         });
     }
 
-    private void updateTrips(Position position, ObjectId tripId) {
-        if (tripId != null) {
-            tripRepository.findById(tripId.toString()).subscribe(result -> {
-                result.getPositions().add(position.getId());
-                tripRepository.save(result).subscribe(update -> {
-                    log.info("stored update trip in db: " + update.toString());
-                });
-            });
-        }
-    }
-
     private void updateUsersWithPosition(User user, Instant lastMessageTimestamp, Position position) {
         user.setLastMessageTimestamp(lastMessageTimestamp);
         user.setLastPosition(position);
@@ -113,4 +104,49 @@ public class UserMessageProcessorServiceImpl implements UserMessageProcessorServ
             log.info("stored user in db: " + result.toString());
         });
     }
+
+    private void updateTrips(Position position, ObjectId tripId) {
+        if (tripId != null) {
+            tripRepository.findById(tripId.toString()).subscribe(result -> {
+                Trip trip = updateTripWithPosition(result, position);
+                tripRepository.save(trip).subscribe(update -> {
+                    log.info("stored update trip in db: " + update.toString());
+                });
+            });
+        }
+    }
+
+    private Trip updateTripWithPosition(Trip trip, Position position) {
+        trip.addPosition(position);
+
+        trip.setStartDate(updateTripStartTime(trip, position));
+        trip.setStopDate(updateTripStopTime(trip, position));
+
+        return trip;
+    }
+
+    private Instant updateTripStopTime(Trip trip, Position position) {
+        if (trip.getStartDate() == null) {
+            return position.getTimestamp();
+        }
+
+        if (position.getTimestamp().isBefore(trip.getStartDate())) {
+            return position.getTimestamp();
+        } else {
+            return trip.getStartDate();
+        }
+    }
+
+    private Instant updateTripStartTime(Trip trip, Position position) {
+        if (trip.getStopDate() == null) {
+            return position.getTimestamp();
+        }
+
+        if (position.getTimestamp().isAfter(trip.getStopDate())) {
+            return position.getTimestamp();
+        } else {
+            return trip.getStopDate();
+        }
+    }
+
 }

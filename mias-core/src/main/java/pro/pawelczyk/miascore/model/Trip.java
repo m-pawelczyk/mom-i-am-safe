@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,8 +27,16 @@ public class Trip {
 
     private String name;
     private ObjectId ownerId;
-    // TODO - check how it will be stored in MongoDB
     private Instant startDate;
     private Instant stopDate;
     private List<ObjectId> positions;
+
+    public ObjectId addPosition(Position position) {
+        if(positions == null) {
+            positions = Arrays.asList(position.getId());
+        } else {
+            positions.add(position.getId());
+        }
+        return position.getId();
+    }
 }

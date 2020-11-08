@@ -11,6 +11,8 @@ import pro.pawelczyk.miascore.repositories.UserRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
+
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)
  * on 20.07.2020
@@ -67,9 +69,7 @@ public class FakeUserConfigController {
 
     @PostMapping("/create/{id}/newTrip")
     Mono<User> addNewTripToUserAndSetItAsCurrent(@PathVariable String id, @RequestParam String tripName) {
-        log.info("jestem tutaj" + id + " " + tripName);
         Mono<User> user = userRepository.findById(id).map(e -> {
-            log.info("userRepository.findById " + e.getId());
             Trip trip = new Trip();
             trip.setName(tripName);
             trip.setOwnerId(e.getId());
