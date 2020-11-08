@@ -74,7 +74,6 @@ public class UserMessageProcessorServiceImpl implements UserMessageProcessorServ
             Position position = processedMessageWithCord.createPosition();
 
             updatePositionsAndUserAndTrips(position, user, processedMessageWithCord.getTimestamp());
-//            updateUsersWithPosition(user, processedMessageWithCord.getTimestamp(), position);
         } else {
             updateUsers(user, processedMessage.getTimestamp());
         }
@@ -94,14 +93,14 @@ public class UserMessageProcessorServiceImpl implements UserMessageProcessorServ
         user.setLastMessageTimestamp(lastMessageTimestamp);
         user.setLastPosition(position);
         userRepository.save(user).subscribe(result -> {
-            log.info("stored user in db: " + result.toString());
+            log.info("update user in db: " + result.toString());
         });
     }
 
     private void updateUsers(User user, Instant lastMessageTimestamp) {
         user.setLastMessageTimestamp(lastMessageTimestamp);
         userRepository.save(user).subscribe(result -> {
-            log.info("stored user in db: " + result.toString());
+            log.info("update user in db: " + result.toString());
         });
     }
 
@@ -110,7 +109,7 @@ public class UserMessageProcessorServiceImpl implements UserMessageProcessorServ
             tripRepository.findById(tripId.toString()).subscribe(result -> {
                 Trip trip = updateTripWithPosition(result, position);
                 tripRepository.save(trip).subscribe(update -> {
-                    log.info("stored update trip in db: " + update.toString());
+                    log.info("update trip in db: " + update.toString());
                 });
             });
         }
