@@ -1,5 +1,6 @@
 package pro.pawelczyk.miascore.repositories;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import pro.pawelczyk.miascore.model.User;
 import reactor.core.publisher.Flux;
@@ -14,7 +15,9 @@ import java.time.Instant;
  * in project mias-core
  */
 public interface UserRepository extends ReactiveMongoRepository<User, String> {
-    
+
+    Flux<User> findByIdNotNull(Pageable pageable);
+
     Mono<User> findByPhoneNumber(String phoneNumber);
 
     Flux<User> findUsersByLastMessageTimestampIsStartingWith(Instant lastMessageTimestamp);

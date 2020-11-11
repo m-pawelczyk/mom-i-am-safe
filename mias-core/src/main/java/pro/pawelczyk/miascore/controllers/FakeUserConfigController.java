@@ -2,6 +2,12 @@ package pro.pawelczyk.miascore.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pro.pawelczyk.miascore.model.Trip;
@@ -12,6 +18,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+
+import static java.util.Comparator.comparing;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)
@@ -25,7 +34,7 @@ import java.time.Instant;
 @RequestMapping(FakeUserConfigController.BASE_URL)
 public class FakeUserConfigController {
     /**
-     * This Controller is made for test purposes and to learn something new ;) It will be deleted. Please remember about it.
+     * This Controller is made for test purposes ;) It will be deleted. Please remember about it.
      * Thats why I haven't created new service layer etc.
      */
 
@@ -36,9 +45,18 @@ public class FakeUserConfigController {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    Flux<User> userlist() {
-        return userRepository.findAll();
+    Flux<User> userlist(@RequestParam(required = false, defaultValue = "0") int page,
+                        @RequestParam(required = false, defaultValue = "10") int size) {
+
+        if(size > 5) {
+            size = 5;
+        }
+
+        log.debug("userlist with page: " + page + " size: " + size);
+        // findAll() does not support paging. I would like to make hack for it.
+        return userRepository.findByIdNotNull(PageRequest.of(page, size, Sort.by("twitterAccount")));
     }
+
 
     @GetMapping("/list/{id}")
     @ResponseStatus(HttpStatus.OK)
