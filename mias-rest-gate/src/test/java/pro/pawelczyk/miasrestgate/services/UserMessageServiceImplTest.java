@@ -11,7 +11,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.valueobjects.SenderType;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -43,6 +45,11 @@ class UserMessageServiceImplTest {
         // than
         assertEquals(SENDER_ID, acceptedMessageDTO.getSenderId());
         assertEquals(MESSAGE_TEXT, acceptedMessageDTO.getMessageText());
-        verify(rabbitTemplate, times(1)).convertAndSend(anyString(), Mockito.any(UserMessageDTO.class));
+        verify(rabbitTemplate, times(1)).convertAndSend(anyString(),
+                Mockito.eq(new UserMessageDTO(acceptedMessageDTO.getUuid(),
+                        acceptedMessageDTO.getTimestamp(),
+                        smsMessageDTO.getPhoneNumber(),
+                        SenderType.SMS,
+                        smsMessageDTO.getMessageText())));
     }
 }
