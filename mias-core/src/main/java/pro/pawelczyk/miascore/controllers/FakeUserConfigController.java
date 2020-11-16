@@ -46,17 +46,18 @@ public class FakeUserConfigController {
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     Flux<User> userlist(@RequestParam(required = false, defaultValue = "0") int page,
-                        @RequestParam(required = false, defaultValue = "10") int size) {
+                        @RequestParam(required = false, defaultValue = "10") int size,
+                        @RequestParam(required = false, defaultValue = "") String twitter) {
 
         if(size > 5) {
             size = 5;
         }
 
-        log.debug("userlist with page: " + page + " size: " + size);
+        log.debug("userlist with page: " + page + " size: " + size + " twitter like: " + twitter);
         // findAll() does not support paging. I would like to make hack for it.
-        return userRepository.findByIdNotNull(PageRequest.of(page, size, Sort.by("twitterAccount")));
+        return userRepository.findByIdNotNullAndTwitterAccountContains(twitter,
+                PageRequest.of(page, size, Sort.by("twitterAccount")));
     }
-
 
     @GetMapping("/list/{id}")
     @ResponseStatus(HttpStatus.OK)

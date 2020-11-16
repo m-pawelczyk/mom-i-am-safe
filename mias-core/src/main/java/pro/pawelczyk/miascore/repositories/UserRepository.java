@@ -16,9 +16,7 @@ import java.time.Instant;
  */
 public interface UserRepository extends ReactiveMongoRepository<User, String> {
 
-    Flux<User> findByIdNotNull(Pageable pageable);
+    Flux<User> findByIdNotNullAndTwitterAccountContains(String twitterAccount, Pageable pageable);
 
     Mono<User> findByPhoneNumber(String phoneNumber);
-
-    Flux<User> findUsersByLastMessageTimestampIsStartingWith(Instant lastMessageTimestamp);
 }
