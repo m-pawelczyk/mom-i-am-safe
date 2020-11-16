@@ -13,18 +13,12 @@ import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.services.UserMessageService;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.pawelczyk.miasrestgate.controllers.AbstractRestControllerTest.asJsonString;
 
-class UserMessageControllerTest {
-
-    public static final String UUID = "uuid";
-    public static final String TIMESTAMP = "12345678";
-    public static final String SENDER_ID = "5000300400";
-    public static final String MESSAGE_TEXT = "test message";
+class UserMessageControllerTest extends AbstractUserMessageControllerTest {
 
     @Mock
     UserMessageService userMessageService;
@@ -46,8 +40,8 @@ class UserMessageControllerTest {
     @Test
     void createNewMessageFromSMS() throws Exception {
         // given
-        SMSMessageDTO smsMessageDTO = new SMSMessageDTO(SENDER_ID, MESSAGE_TEXT);
-        AcceptedMessageDTO acceptedMessageDTO = new AcceptedMessageDTO(UUID, TIMESTAMP, SENDER_ID, MESSAGE_TEXT);
+        SMSMessageDTO smsMessageDTO = aSmsMessageDTO();
+        AcceptedMessageDTO acceptedMessageDTO = aAcceptedMessageDTO();
 
         when(userMessageService.createAndRedirectSMSMessage(smsMessageDTO)).thenReturn(acceptedMessageDTO);
 
