@@ -1,0 +1,10 @@
+request:
+  method: POST
+  url: /api/v1/messages
+  headers:
+    Content-Type: application/json
+  body:
+    phoneNumber: 500500500
+    messageText: Hello, I'm here!
+response:
+  status: 201

@@ -36,6 +36,7 @@ public class UserMessageController {
     @ResponseStatus(HttpStatus.CREATED)
     public AcceptedMessageDTO createNewMessageFromSMS(@RequestBody SMSMessageDTO smsMessageDTO) {
         log.info("receive sms message: " + smsMessageDTO.toString());
-        return userMessageService.createAndRedirectSMSMessage(smsMessageDTO);
+        AcceptedMessageDTO acceptedMessageDTO  = userMessageService.createAndRedirectSMSMessage(smsMessageDTO);
+        return acceptedMessageDTO;
     }
 }
