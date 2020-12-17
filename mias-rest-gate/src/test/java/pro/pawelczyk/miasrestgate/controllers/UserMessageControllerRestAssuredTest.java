@@ -3,6 +3,7 @@ package pro.pawelczyk.miasrestgate.controllers;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static pro.pawelczyk.miasrestgate.controllers.AbstractRestControllerTest.asJsonString;
 
 @WebMvcTest
-@ContextConfiguration(classes = RestAssuredConfig.class)
+@ContextConfiguration(classes = UserMessageControllerRestAssuredTest.RestAssuredConfig.class)
 public class UserMessageControllerRestAssuredTest extends AbstractUserMessageControllerTest {
 
     @Test
@@ -113,29 +114,29 @@ public class UserMessageControllerRestAssuredTest extends AbstractUserMessageCon
                 "    \"messageText\": \"Hello mom, I am safe! gps$50.2135882,18.8671101\"\n" +
                 "}";
     }
-}
+    
+    @Configuration(proxyBeanMethods = false)
+    static class RestAssuredConfig {
 
-@Configuration(proxyBeanMethods = false)
-class RestAssuredConfig {
+        @Bean
+        UserMessageService userMessageService() {
+            return new UserMessageServiceImpl(null) {
+                @Override
+                public AcceptedMessageDTO createAndRedirectSMSMessage(SMSMessageDTO smsMessageDTO) {
+                    SMSMessage smsMessage = new SMSMessage(
+                            smsMessageDTO.getPhoneNumber(),
+                            smsMessageDTO.getMessageText());
+                    return new AcceptedMessageDTO(AbstractUserMessageControllerTest.UUID,
+                            AbstractUserMessageControllerTest.TIMESTAMP,
+                            smsMessage.getPhoneNumber(),
+                            smsMessage.getMessageText());
+                }
+            };
+        }
 
-    @Bean
-    UserMessageService userMessageService() {
-        return new UserMessageServiceImpl(null) {
-            @Override
-            public AcceptedMessageDTO createAndRedirectSMSMessage(SMSMessageDTO smsMessageDTO) {
-                SMSMessage smsMessage = new SMSMessage(
-                        smsMessageDTO.getPhoneNumber(),
-                        smsMessageDTO.getMessageText());
-                return new AcceptedMessageDTO(AbstractUserMessageControllerTest.UUID,
-                        AbstractUserMessageControllerTest.TIMESTAMP,
-                        smsMessage.getPhoneNumber(),
-                        smsMessage.getMessageText());
-            }
-        };
-    }
-
-    @Bean
-    UserMessageController userMessageController(UserMessageService userMessageService) {
-        return new UserMessageController(userMessageService);
+        @Bean
+        UserMessageController userMessageController(UserMessageService userMessageService) {
+            return new UserMessageController(userMessageService);
+        }
     }
 }
