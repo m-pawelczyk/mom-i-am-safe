@@ -30,7 +30,7 @@ public class DemoMiasCoreApplicationTest {
     }
 
     @Test
-    public void should_verify_that_the_application_is_running_in_healthy_state() {
+    public void shouldVerifyThatTheApplicationIsRunningInHealthyState() {
         System.out.println("The apps are running");
 
         ResponseEntity<String> entity = new RestTemplate().getForEntity("http://localhost:8082/actuator/health", String.class);
