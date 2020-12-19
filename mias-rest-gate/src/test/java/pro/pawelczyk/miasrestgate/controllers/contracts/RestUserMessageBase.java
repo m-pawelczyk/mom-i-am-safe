@@ -1,11 +1,11 @@
-package pro.pawelczyk.miasrestgate.controllers;
+package pro.pawelczyk.miasrestgate.controllers.contracts;
 
-import com.github.dockerjava.api.exception.InternalServerErrorException;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.BDDMockito;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
+import pro.pawelczyk.miasrestgate.controllers.UserMessageController;
 import pro.pawelczyk.miasrestgate.services.UserMessageService;
 import pro.pawelczyk.miasrestgate.services.UserMessageServiceImpl;
 
@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 
-public class BaseUserMessageContractClass {
+public class RestUserMessageBase {
 
     @BeforeEach
     public void setup() {

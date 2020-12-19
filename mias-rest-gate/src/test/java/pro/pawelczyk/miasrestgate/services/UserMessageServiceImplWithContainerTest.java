@@ -43,7 +43,7 @@ public class UserMessageServiceImplWithContainerTest {
         // when
         AcceptedMessageDTO acceptedMessageDTO = notifier.createAndRedirectSMSMessage(smsMessageDTO);
         // then
-        Message message = rabbitTemplate.receive(RabbitConfig.queueName, 100);
+        Message message = rabbitTemplate.receive(RabbitConfig.userMessagesQueueName, 100);
         then(message).isNotNull();
         System.out.println(messageBody(message));
         then(messageBody(message)).contains(acceptedMessageDTO.getUuid())
@@ -60,7 +60,7 @@ public class UserMessageServiceImplWithContainerTest {
         // when
         AcceptedMessageDTO acceptedMessageDTO = notifier.createAndRedirectSMSMessage(smsMessageDTO);
         // then
-        Message message = rabbitTemplate.receive(RabbitConfig.queueName, 100);
+        Message message = rabbitTemplate.receive(RabbitConfig.userMessagesQueueName, 100);
         then(message).isNotNull();
         then(messageBody(message))
                 .contains(acceptedMessageDTO.getUuid())

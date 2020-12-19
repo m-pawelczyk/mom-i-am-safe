@@ -1,0 +1,13 @@
+label: user-send-message
+input:
+  triggeredBy: onUserSendMessage()
+outputMessage:
+  sentTo: user-messages
+  body:
+    uuid: "55c9644e-d38e-421b-b5c1-299e1e89cc28"
+    timestamp: "2020-12-19T11:24:52.800153Z"
+    senderId: "400500607"
+    senderType: SMS
+    messageText: "hej, kurde cycu gdzie null gps$50.2135882,18.8671101"
+  headers:
+    contentType: application/json

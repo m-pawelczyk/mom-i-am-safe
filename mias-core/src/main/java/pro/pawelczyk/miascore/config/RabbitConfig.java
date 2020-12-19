@@ -1,5 +1,8 @@
 package pro.pawelczyk.miascore.config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -22,6 +25,19 @@ public class RabbitConfig {
     public static final String twitterUpdaterQueueName = "twitter-updater";
 
     @Bean
+    Binding binding() {
+        return BindingBuilder
+                .bind(userMessageQueue())
+                .to(userMessageExchange())
+                .with("#");
+    }
+
+    @Bean
+    DirectExchange userMessageExchange() {
+        return new DirectExchange(userMessagesQueueName);
+    }
+
+    @Bean
     Queue userMessageQueue() {
         return new Queue(userMessagesQueueName, false);
     }
@@ -30,11 +46,6 @@ public class RabbitConfig {
     Queue twitterUpdaterQueue() {
         return new Queue(twitterUpdaterQueueName, false);
     }
-
-//    @Bean
-//    public UserMessageListener userMessageListener() {
-//        return new UserMessageListener();
-//    }
 
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {

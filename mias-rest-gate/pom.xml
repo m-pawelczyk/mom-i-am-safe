@@ -134,7 +134,7 @@
                 <version>${spring-cloud-contract.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <baseClassForTests>pro.pawelczyk.miasrestgate.controllers.BaseUserMessageContractClass</baseClassForTests>
+                    <packageWithBaseClasses>pro.pawelczyk.miasrestgate.controllers.contracts</packageWithBaseClasses>
                     <testFramework>JUNIT5</testFramework>
                 </configuration>
             </plugin>

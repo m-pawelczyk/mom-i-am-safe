@@ -32,13 +32,17 @@ public class UserMessageServiceImpl implements UserMessageService {
         UserMessage userMessage = new UserMessage(
                 new SMSMessage(smsMessageDTO.getPhoneNumber(), smsMessageDTO.getMessageText()));
         log.info("create valid user message: " + userMessage.toString());
-        UserMessageDTO userMessageDTO = userMessage.createDTO();
-        rabbitTemplate.convertAndSend(RabbitConfig.queueName, userMessageDTO);
+        UserMessageDTO userMessageDTO = userMessageBody(userMessage);
+        rabbitTemplate.convertAndSend(RabbitConfig.userMessagesQueueName, "#", userMessageDTO);
         log.info("redirect sms message to queue: " + userMessageDTO.toString());
         return new AcceptedMessageDTO(
                 userMessage.getUuidString(),
                 userMessage.getTimestampString(),
                 userMessage.getSenderId(),
                 userMessage.getMessageText());
+    }
+
+    protected UserMessageDTO userMessageBody(UserMessage userMessage) {
+        return userMessage.createDTO();
     }
 }
