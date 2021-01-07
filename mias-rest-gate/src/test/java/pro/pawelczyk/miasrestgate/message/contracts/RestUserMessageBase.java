@@ -1,13 +1,13 @@
-package pro.pawelczyk.miasrestgate.controllers.contracts;
+package pro.pawelczyk.miasrestgate.message.contracts;
 
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.BDDMockito;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
-import pro.pawelczyk.miasrestgate.controllers.UserMessageController;
-import pro.pawelczyk.miasrestgate.services.UserMessageService;
-import pro.pawelczyk.miasrestgate.services.UserMessageServiceImpl;
+import pro.pawelczyk.miasrestgate.message.UserMessageController;
+import pro.pawelczyk.miasrestgate.message.UserMessageService;
+import pro.pawelczyk.miasrestgate.message.impl.UserMessageServiceImpl;
 
 import java.time.Instant;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.valueobjects;
+package pro.pawelczyk.miasrestgate.message;
 
 import lombok.Getter;
 

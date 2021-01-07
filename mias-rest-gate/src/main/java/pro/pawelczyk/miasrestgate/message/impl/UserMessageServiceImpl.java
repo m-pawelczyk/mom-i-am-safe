@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.services;
+package pro.pawelczyk.miasrestgate.message.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.config.RabbitConfig;
-import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
-import pro.pawelczyk.miasrestgate.valueobjects.SenderType;
-import pro.pawelczyk.miasrestgate.valueobjects.UserMessage;
-import pro.pawelczyk.miasrestgate.valueobjects.SMSMessage;
+import pro.pawelczyk.miasrestgate.message.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.message.UserMessageService;
+import pro.pawelczyk.miasrestgate.message.UserMessage;
+import pro.pawelczyk.miasrestgate.message.SMSMessage;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)

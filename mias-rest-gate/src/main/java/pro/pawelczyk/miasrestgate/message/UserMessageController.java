@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.controllers;
+package pro.pawelczyk.miasrestgate.message;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
-import pro.pawelczyk.miasrestgate.services.UserMessageService;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)

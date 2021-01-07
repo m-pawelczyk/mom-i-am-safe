@@ -1,7 +1,10 @@
-package pro.pawelczyk.miasrestgate.valueobjects;
+package pro.pawelczyk.miasrestgate.message;
 
 import org.junit.jupiter.api.Test;
-import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.message.SMSMessage;
+import pro.pawelczyk.miasrestgate.message.SenderType;
+import pro.pawelczyk.miasrestgate.message.UserMessage;
+import pro.pawelczyk.miasrestgate.message.UserMessageDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 

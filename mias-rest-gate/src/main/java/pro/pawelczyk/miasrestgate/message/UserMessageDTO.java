@@ -1,9 +1,8 @@
-package pro.pawelczyk.miasrestgate.messages;
+package pro.pawelczyk.miasrestgate.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pro.pawelczyk.miasrestgate.valueobjects.SenderType;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)

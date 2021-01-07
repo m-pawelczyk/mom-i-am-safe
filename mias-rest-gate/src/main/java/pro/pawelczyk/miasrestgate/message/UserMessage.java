@@ -1,9 +1,9 @@
-package pro.pawelczyk.miasrestgate.valueobjects;
+package pro.pawelczyk.miasrestgate.message;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
-import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.message.SMSMessage;
+import pro.pawelczyk.miasrestgate.message.SenderType;
+import pro.pawelczyk.miasrestgate.message.UserMessageDTO;
 
 import java.time.Instant;
 import java.util.UUID;

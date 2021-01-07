@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.controllers.contracts;
+package pro.pawelczyk.miasrestgate.message.contracts;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.config.RabbitConfig;
-import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
-import pro.pawelczyk.miasrestgate.services.UserMessageService;
-import pro.pawelczyk.miasrestgate.services.UserMessageServiceImpl;
-import pro.pawelczyk.miasrestgate.valueobjects.SenderType;
-import pro.pawelczyk.miasrestgate.valueobjects.UserMessage;
+import pro.pawelczyk.miasrestgate.message.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.message.UserMessageService;
+import pro.pawelczyk.miasrestgate.message.impl.UserMessageServiceImpl;
+import pro.pawelczyk.miasrestgate.message.SenderType;
+import pro.pawelczyk.miasrestgate.message.UserMessage;
 
 @SpringBootTest(classes = RabbitUserMessageBase.TestConfig.class)
 @AutoConfigureMessageVerifier

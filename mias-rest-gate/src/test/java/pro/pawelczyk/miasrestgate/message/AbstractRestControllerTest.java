@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.controllers;
+package pro.pawelczyk.miasrestgate.message;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

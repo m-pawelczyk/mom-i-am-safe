@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.controllers;
+package pro.pawelczyk.miasrestgate.message;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,13 +10,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
-import pro.pawelczyk.miasrestgate.services.UserMessageService;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pro.pawelczyk.miasrestgate.controllers.AbstractRestControllerTest.asJsonString;
+import static pro.pawelczyk.miasrestgate.message.AbstractRestControllerTest.asJsonString;
 
 class UserMessageControllerTest extends AbstractUserMessageControllerTest {
 

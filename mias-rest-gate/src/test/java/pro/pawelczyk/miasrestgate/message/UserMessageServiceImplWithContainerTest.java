@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.services;
+package pro.pawelczyk.miasrestgate.message;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.Message;
@@ -17,6 +17,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
 import pro.pawelczyk.miasrestgate.config.RabbitConfig;
+import pro.pawelczyk.miasrestgate.message.impl.UserMessageServiceImpl;
 
 import static org.assertj.core.api.BDDAssertions.then;
 

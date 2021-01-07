@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.controllers;
+package pro.pawelczyk.miasrestgate.message;
 
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;

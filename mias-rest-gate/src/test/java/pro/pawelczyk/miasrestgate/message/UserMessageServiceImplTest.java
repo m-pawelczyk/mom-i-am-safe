@@ -1,4 +1,4 @@
-package pro.pawelczyk.miasrestgate.services;
+package pro.pawelczyk.miasrestgate.message;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
-import pro.pawelczyk.miasrestgate.messages.UserMessageDTO;
-import pro.pawelczyk.miasrestgate.valueobjects.SenderType;
+import pro.pawelczyk.miasrestgate.message.UserMessageDTO;
+import pro.pawelczyk.miasrestgate.message.impl.UserMessageServiceImpl;
+import pro.pawelczyk.miasrestgate.message.SenderType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;

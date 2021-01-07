@@ -1,9 +1,8 @@
-package pro.pawelczyk.miasrestgate.controllers;
+package pro.pawelczyk.miasrestgate.message;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,14 +11,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 import pro.pawelczyk.miasrestgate.api.v1.model.AcceptedMessageDTO;
 import pro.pawelczyk.miasrestgate.api.v1.model.SMSMessageDTO;
-import pro.pawelczyk.miasrestgate.services.UserMessageService;
-import pro.pawelczyk.miasrestgate.services.UserMessageServiceImpl;
-import pro.pawelczyk.miasrestgate.valueobjects.SMSMessage;
+import pro.pawelczyk.miasrestgate.message.impl.UserMessageServiceImpl;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static pro.pawelczyk.miasrestgate.controllers.AbstractRestControllerTest.asJsonString;
+import static pro.pawelczyk.miasrestgate.message.AbstractRestControllerTest.asJsonString;
 
 @WebMvcTest
 @ContextConfiguration(classes = UserMessageControllerRestAssuredTest.RestAssuredConfig.class)
