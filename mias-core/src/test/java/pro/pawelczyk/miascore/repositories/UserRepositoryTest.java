@@ -1,10 +1,10 @@
 package pro.pawelczyk.miascore.repositories;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -19,12 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * created UserRepositoryTest in pro.pawelczyk.miascore.repositories
  * in project mias-core
  */
-@DataMongoTest
 @Testcontainers
+@ActiveProfiles("container")
+@DataMongoTest
 public class UserRepositoryTest {
 
     @Container
-    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10"));
+    private static final MongoDBContainer DB_CONTAINER = new MongoDBContainer(DockerImageName.parse("mongo:4.0.10")).withReuse(true);
 
     public static final String PHONE_NUMBER_600 = "600600600";
 

@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      port: ${DB_PORT:27017}
