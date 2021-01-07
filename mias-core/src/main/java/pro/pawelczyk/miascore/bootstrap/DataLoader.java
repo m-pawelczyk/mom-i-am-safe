@@ -5,12 +5,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import pro.pawelczyk.miascore.model.User;
-import pro.pawelczyk.miascore.repositories.UserRepository;
-
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
+import pro.pawelczyk.miascore.messageprocessor.model.User;
+import pro.pawelczyk.miascore.messageprocessor.repositories.UserRepository;
 
 /**
  * m-pawelczyk (GitGub) / m_pawelczyk (Twitter)
