@@ -25,11 +25,6 @@ public class RabbitConfig {
     }
 
     @Bean
-    public TwitterUpdaterListener twitterUpdaterListener() {
-        return new TwitterUpdaterListener();
-    }
-
-    @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
