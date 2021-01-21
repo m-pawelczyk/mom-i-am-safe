@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'travellers')}">
+
+<body>
+    <h1>Safe Users:</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Timestamp</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="traveller : ${travellers}">
+                <td th:text="${traveller.twitterAccount}">Twitter Login</td>
+                <td th:text="${traveller.lastMessageTimestamp != null} ?
+                    ${traveller.lastMessageTimestamp} : #{notSetLastTimestamp}">Last position Timestamp</td>
+                <td th:text="${traveller.lastPosition != null} ?
+                    ${traveller.lastPosition.location.x} + ', ' + ${traveller.lastPosition.location.y} : #{notSetPosition}">Last position</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
