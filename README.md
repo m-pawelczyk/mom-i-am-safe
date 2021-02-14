@@ -22,5 +22,5 @@ It is simple, service "Mum, I am safe" is to publish information about the last 
 - RabbitMQ
 - MongoDB
 - Docker
-- Maven/Gradle
+- Maven
 - Bash
